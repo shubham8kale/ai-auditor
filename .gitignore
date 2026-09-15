@@ -1,0 +1,41 @@
+# Project Python environment and caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Client materials, derived analysis, and generated results
+data/
+private/
+tmp/
+output/
+outputs/
+*.pdf
+*.xlsx
+*.xls
+*.csv
+*.sqlite*
+*.db
+
+# Frontend and build caches, if adopted
+node_modules/
+.next/
+.vercel/
+dist/
+build/
+*.egg-info/
+*.tsbuildinfo
+
+# Local editor and operating-system files
+.idea/
+.vscode/
+Thumbs.db
+.DS_Store
