@@ -38,6 +38,7 @@ and their 22 original files, with no orphaned storage objects.
 | Anonymous workspace and identity requests | Rejected with HTTP 401 |
 | Database and storage | Seven app tables have RLS; no public-role table grants; evidence bucket is private |
 | Retired account | Banned, password replaced, sessions and refresh tokens revoked, no engagement ownership |
+| Live hardening deployment | Verified after `dd5242e`: homepage and database health pass; CSP/HSTS/nosniff headers present; protected paths return 404; anonymous API and portal access rejected; untrusted CORS origin denied |
 
 The review found that a header-only request-size check did not bound chunked or
 understated request bodies before multipart parsing. Requests are now bounded by
