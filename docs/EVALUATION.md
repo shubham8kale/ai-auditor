@@ -5,7 +5,7 @@
 The isolated backend suite currently has 62 passing tests. It covers monetary
 boundaries, policy applicability, sampling, reconciliation, document findings,
 ownership, review gates, version conflicts, job interruption, and revision history.
-Nine security regression cases added on September 15 cover body-size enforcement,
+Nine security regression cases cover body-size enforcement,
 security headers, private paths, and XML entity rejection; see `SECURITY.md`.
 TypeScript checking and production builds have also passed locally and in GitHub
 Actions. These checks complement live evaluation; they do not establish model accuracy.
@@ -36,7 +36,7 @@ ignored `tmp/demo-evaluation/`, including the original failed baseline.
   approvals are explicitly labeled and do not affect the hosted audit records.
 - Hosted page/assets/health checks pass. Anonymous workspace requests are rejected,
   and public configuration contains no server secret key.
-- On September 9, the author completed the hosted exception workflow through the
+- The author completed the hosted exception workflow through the
   expense-testing draft: approved the first four stages, reviewed all eight
   invoices, accepted six, and returned two for vague services and wrong entity.
   Two invoice extractions hit free API quota limits and succeeded on manual retry.
@@ -93,7 +93,7 @@ HTTP 502/503/504, with at most four total attempts. Four regression cases cover
 recovery, exhaustion, unchanged request content, and immediate failure for invalid
 credentials. After deployment, the hosted clean draft contained eight clean
 results, zero exceptions, zero unresolved selections, a zero amount difference,
-and no blocking findings. The author approved testing on September 9; all five
+and no blocking findings. The author approved testing; all five
 stages now retain approved status and reviewer records. The author then downloaded
 the final testing PDF and confirmed that it displays Approved.
 

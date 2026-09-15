@@ -19,7 +19,7 @@ client evidence, credentials, or local analysis into this repository or public i
 - The production container runs as a non-root user. Local auth bypass is forbidden
   in production. Original evidence and review history are separate from model output.
 
-## Review on September 15, 2026
+## Security review
 
 The review covered repository files and Git objects, pinned dependencies, Python
 static analysis, API ownership tests, and read-only live access/storage checks.

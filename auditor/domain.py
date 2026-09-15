@@ -116,7 +116,7 @@ def map_by_examples(name, examples=None):
     for example in examples or []:
         if normalized(example["account_name"]) == key and example["fsli"] in FSLIS:
             return example["fsli"], "Exact match to the uploaded mapping library", "library"
-    # Transparent proposals from the supplied library's categories. Ambiguous names fall through to AI.
+    # Transparent proposals from mapping categories. Ambiguous names fall through to AI.
     patterns = [
         (r"\b(checking|savings|petty cash|money market)\b", "Cash"),
         (r"\b(receivable|receivables|doubtful accounts)\b", "Accounts Receivable"),
@@ -176,7 +176,7 @@ def materiality(accounts, profile, overrides):
         findings.append(
             finding(
                 "issuer_equity",
-                "The supplied issuer supplement does not provide an equity benchmark. Obtain applicable methodology.",
+                "The configured issuer policy does not define an equity benchmark. Obtain applicable methodology.",
                 source="POL-201 §2",
             )
         )
@@ -209,7 +209,7 @@ def materiality(accounts, profile, overrides):
         findings.append(
             finding(
                 "partner_concurrence",
-                "This percentage is outside the supplied range. A partner concurrence record is required; ordinary stage approval cannot replace it.",
+                "This percentage is outside the configured policy range. A partner concurrence record is required; ordinary stage approval cannot replace it.",
                 source="POL-101 §1.1",
             )
         )
@@ -281,7 +281,7 @@ def materiality(accounts, profile, overrides):
                 else (
                     "FSLI at or above PM"
                     if included
-                    else "FSLI below PM; no identified qualitative flag in the supplied profile"
+                    else "FSLI below PM; no identified qualitative flag in the engagement profile"
                 ),
             }
         )

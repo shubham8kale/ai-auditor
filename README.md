@@ -110,10 +110,10 @@ The variable names `SUPABASE_ANON_KEY` and `SUPABASE_SERVICE_ROLE_KEY` also acce
 Supabase's current publishable and secret keys respectively. Only the publishable
 key is returned to the browser. Never place the server secret in frontend settings.
 
-## Validation recorded on September 8–9, 2026
+## Validation
 
-- The original functional suite contained 53 tests. The current security checks
-  and full-suite result are recorded in [Security](SECURITY.md).
+- 62 tests pass: `.\.venv\Scripts\python.exe -m pytest -q`. Security checks
+  are recorded in [Security](SECURITY.md).
 - Lint passes: `.\.venv\Scripts\python.exe -m ruff check auditor tests scripts`.
 - TypeScript checking and the Vite production build pass.
 - A Linux Docker build and local named-account sign-in succeed. Anonymous
@@ -136,7 +136,7 @@ key is returned to the browser. Never place the server secret in frontend settin
   human approval: eight clean results, zero exceptions, zero unresolved selections,
   and a $0.00 amount difference. Its testing PDF displays Approved. A later fix
   added bounded retries for transient provider errors; its regression coverage is
-  included in the 53 tests.
+  included in the current test suite.
 - A synthetic five-stage integration test checks arithmetic, visible exceptions,
   unresolved cutoff evidence, and invalidation after a risk correction.
 - API tests cover cross-user access, upload handling, stale-version rejection,

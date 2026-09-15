@@ -146,7 +146,7 @@ async def prepare(db, engagement: Engagement, stage: str):
             findings.append(
                 finding(
                     "industry_policy_missing",
-                    "The supplied policy pack does not establish this industry's requirements. Obtain the applicable profile.",
+                    "The configured policy does not cover this industry's requirements. Obtain the applicable profile.",
                 )
             )
         return {
