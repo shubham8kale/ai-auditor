@@ -68,6 +68,16 @@ def test_health_and_public_config_never_expose_server_credentials(api):
     assert client.get("/api/engagements").status_code == 401
 
 
+def test_security_headers_and_private_paths(api):
+    client, _, _ = api
+    response = client.get("/api/config")
+    assert "script-src 'self'" in response.headers["content-security-policy"]
+    assert "frame-ancestors 'none'" in response.headers["content-security-policy"]
+    assert response.headers["permissions-policy"] == "camera=(), microphone=(), geolocation=()"
+    for path in ("/.env", "/.git/config", "/docs", "/openapi.json"):
+        assert client.get(path).status_code == 404
+
+
 def test_ownership_filters_lists_and_rejects_cross_engagement_documents(api):
     client, sessions, _ = api
     one, two = create(client, "a"), create(client, "b")

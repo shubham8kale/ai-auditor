@@ -2,9 +2,11 @@
 
 ## Automated checks
 
-The isolated backend suite currently has 53 passing tests. It covers monetary
+The isolated backend suite currently has 62 passing tests. It covers monetary
 boundaries, policy applicability, sampling, reconciliation, document findings,
 ownership, review gates, version conflicts, job interruption, and revision history.
+Nine security regression cases added on September 15 cover body-size enforcement,
+security headers, private paths, and XML entity rejection; see `SECURITY.md`.
 TypeScript checking and production builds have also passed locally and in GitHub
 Actions. These checks complement live evaluation; they do not establish model accuracy.
 

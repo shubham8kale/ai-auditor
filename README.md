@@ -1,6 +1,6 @@
 # AI Auditor
 
-An evidence-led audit preparation and review workspace. The UI and API are deployed
+A personal project for evidence-led audit preparation and review. The UI and API are deployed
 together on Render with named Supabase authentication.
 
 [Open the demo app](https://ai-auditor-o2ym.onrender.com/). An account is required
@@ -9,7 +9,7 @@ inactivity. Extraction is paced at a minimum of 32 seconds between model calls t
 fit the free API quota; uploaded documents queue and process one at a time. Queued
 and failed documents are identified by name, with a retry control for quota failures.
 
-The demo account holds two fictional engagements that are meant to be read as a
+The owner's private workspace holds two fictional engagements that are meant to be read as a
 pair. **Cedar Supply Co.** shows the clean path, approved through all five stages.
 **Harbor Supply Co.** shows the opposite: its expense testing stops at a draft with
 four exceptions, two unresolved selections, and a $400 amount difference, and final
@@ -104,7 +104,7 @@ The Dockerfile builds both components. With a privately prepared production env
 file, `docker build -t ai-auditor:local .` builds the image and
 `docker run --env-file .env.render -p 127.0.0.1:8000:10000 ai-auditor:local` runs it.
 Only one application instance should use a database at a time. The health check
-is `/health`; it indicates process health, not model or database availability.
+is `/health`; it checks the process and a database query, not model availability.
 
 The variable names `SUPABASE_ANON_KEY` and `SUPABASE_SERVICE_ROLE_KEY` also accept
 Supabase's current publishable and secret keys respectively. Only the publishable
@@ -112,7 +112,8 @@ key is returned to the browser. Never place the server secret in frontend settin
 
 ## Validation recorded on September 8–9, 2026
 
-- 53 tests pass: `.\.venv\Scripts\python.exe -m pytest -q`.
+- The original functional suite contained 53 tests. The current security checks
+  and full-suite result are recorded in [Security](SECURITY.md).
 - Lint passes: `.\.venv\Scripts\python.exe -m ruff check auditor tests scripts`.
 - TypeScript checking and the Vite production build pass.
 - A Linux Docker build and local named-account sign-in succeed. Anonymous
@@ -208,3 +209,7 @@ require human review.
 
 Real client documents, client-derived results, private analysis, generated local
 fixtures, credentials, and temporary files are excluded from Git. Do not commit them.
+
+The hosted instance requires an owner-provisioned account; no shared login is
+published. Its current stored examples are fictional. See [Security](SECURITY.md)
+for the access model, audit scope, and remaining limitations.

@@ -10,6 +10,7 @@ from copy import deepcopy
 from datetime import date, timedelta, timezone
 from pathlib import Path
 from typing import Annotated, Literal
+from urllib.parse import urlsplit
 
 import httpx
 from fastapi import Depends, FastAPI, File, Header, HTTPException, Request, UploadFile
@@ -44,6 +45,7 @@ from auditor.documents import Facts, validate_document
 from auditor.domain import amount, map_by_examples, money, policy_scope
 from auditor.jobs import affected_stage, dispatch, tasks
 from auditor.requests import request_list
+from auditor.security import RequestBodyLimit
 from auditor.storage import read_file, save_file
 from auditor.workflow import (
     STAGES,
@@ -95,6 +97,7 @@ async def lifespan(_app):
 app = FastAPI(
     title="AI Auditor", version="0.1.0", lifespan=lifespan, docs_url=None, redoc_url=None, openapi_url=None
 )
+app.add_middleware(RequestBodyLimit, max_bytes=(settings().max_upload_mb + 1) * 1024 * 1024)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[settings().frontend_origin],
@@ -107,15 +110,20 @@ Reviewer = Annotated[User, Depends(current_user)]
 
 @app.middleware("http")
 async def response_headers(request: Request, call_next):
-    if (
-        request.headers.get("content-length", "").isdigit()
-        and int(request.headers["content-length"]) > (settings().max_upload_mb + 1) * 1024 * 1024
-    ):
-        return JSONResponse({"detail": "Request exceeds the upload limit."}, status_code=413)
     response = await call_next(request)
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["Referrer-Policy"] = "no-referrer"
     response.headers["X-Frame-Options"] = "DENY"
+    auth_url = urlsplit(settings().supabase_url)
+    auth_origin = f" {auth_url.scheme}://{auth_url.netloc}" if auth_url.netloc else ""
+    response.headers["Content-Security-Policy"] = (
+        "default-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; "
+        "form-action 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; "
+        f"img-src 'self' data: blob:; connect-src 'self'{auth_origin}"
+    )
+    response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
+    if settings().auditor_env == "production":
+        response.headers["Strict-Transport-Security"] = "max-age=31536000"
     if request.url.path.startswith("/api/"):
         response.headers["Cache-Control"] = "no-store"
     return response
@@ -732,6 +740,8 @@ async def workpaper(engagement_id: str, revision_id: str, db: Db, user: Reviewer
 async def frontend(path: str):
     if path.startswith("api/"):
         raise HTTPException(404, "Endpoint not found.")
+    if any(part.startswith(".") for part in path.split("/")) or path in {"docs", "redoc", "openapi.json"}:
+        raise HTTPException(404, "Not found.")
     root = Path("frontend/dist").resolve()
     candidate = (root / path).resolve()
     if candidate.is_relative_to(root) and candidate.is_file():

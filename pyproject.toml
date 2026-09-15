@@ -10,7 +10,7 @@ requires-python = ">=3.12"
 dependencies = [
   "fastapi>=0.115,<1", "uvicorn[standard]>=0.34,<1", "pydantic-settings>=2.7,<3",
   "sqlalchemy>=2.0,<3", "psycopg[binary]>=3.2,<4", "httpx>=0.28,<1",
-  "python-multipart>=0.0.20,<1", "openpyxl>=3.1.5,<4", "pypdf>=6,<7",
+  "python-multipart>=0.0.20,<1", "openpyxl>=3.1.5,<4", "defusedxml>=0.7.1,<1", "pypdf>=6,<7",
   "pypdfium2>=4.30,<6", "pillow>=11,<13", "reportlab>=4.3,<5"
 ]
 
