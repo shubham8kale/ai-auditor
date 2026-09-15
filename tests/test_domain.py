@@ -19,7 +19,7 @@ def profile(**changes):
 
 
 def accounts():
-    # Synthetic balanced miniature ledger; no supplied client data.
+    # Synthetic balanced miniature ledger; no supplied data.
     return [
         {"number": "100", "name": "Checking", "fsli": "Cash", "balance": "120000.00"},
         {"number": "300", "name": "Retained earnings", "fsli": "Equity", "balance": "-20000.00"},
